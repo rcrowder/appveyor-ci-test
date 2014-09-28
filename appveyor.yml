@@ -40,5 +40,5 @@ assembly_info:
 # To run your custom scripts instead of automatic MSBuild
 build_script:
   - echo Starting cmake
-  - vera++\bin\vera++ --vc-report --error test.cpp
-  - vera++\bin\vera++ --vc-report --error src\test2.cpp
+  - C:\projects\appveyor-ci-test\vera++\bin\vera++.exe --vc-report --error test.cpp
+  - C:\projects\appveyor-ci-test\vera++\bin\vera++.exe --vc-report --error src\test2.cpp
