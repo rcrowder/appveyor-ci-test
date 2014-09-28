@@ -36,9 +36,5 @@ assembly_info:
 # To run your custom scripts instead of automatic MSBuild
 build_script:
   - echo Starting cmake
-  - cmake \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_TOOLCHAIN_FILE=./MinGW-W64-CrossCompile-Windows.cmake \
-    ..
   - vera++\bin\vera++ --vc-report --error test.cpp
   - vera++\bin\vera++ --vc-report --error src\test2.cpp

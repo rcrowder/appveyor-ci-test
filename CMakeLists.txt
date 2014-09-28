@@ -1,3 +1,3 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
-PROJECT(travis-ci-test)
+PROJECT(appveyor-ci-test)
 ADD_SUBDIRECTORY(src)
