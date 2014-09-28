@@ -1,0 +1,101 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 1.0.{build}
+
+# branches to build
+branches:
+  # whitelist
+  only:
+    - 103-windows-build
+
+  # blacklist
+  except:
+    - master
+    - gh-pages
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Operating system (build VM template)
+os: Windows Server 2012
+
+# scripts that are called at very beginning, before repo cloning
+init:
+  - git config --global core.autocrlf input
+# - git submodule update --init --recursive
+
+# clone directory
+clone_folder: c:\projects\nupic-core
+
+environment:
+  matrix:
+#    - COMPILER_FAMILY: GNU
+    - COMPILER_FAMILY: MSVC
+
+#  fast_finish: true
+#  allow_failures:
+#    - platform: x86
+#      configuration: Debug
+#    - platform: x64
+#      configuration: Debug
+
+
+# scripts that run after cloning repository
+install:
+  - echo %PATH%
+  - mkdir C:\projects\nupic-core\build\
+  - mkdir C:\projects\nupic-core\build\scripts
+  - cd C:\projects\nupic-core\build\scripts
+  - cmake C:\projects\nupic-core\src -G "Visual Studio 12"
+
+# enable patching of AssemblyInfo.* files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "1.0.{build}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+#platform: x64
+#  - x86
+#  -Any CPU
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+
+# scripts to run before build
+before_build:
+  cd C:\projects\nupic-core\build\scripts
+
+# To run your custom scripts instead of automatic MSBuild
+build_script:
+  - cd C:\projects\nupic-core\build\scripts
+  - msbuild "C:\projects\nupic-core\build\scripts\nupic_core.sln" /property:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+# scripts to run after build
+after_build:
+  - cd C:\projects\nupic-core\build\release
+  - dir/S
+
+#after_test:
+#  - ps: .\nuget\pack.ps1
+
+#deploy:
+#  provider: NuGet
+#  api_key:
+#    secure: Dc1+eU2ANoApegIHNoJ3WcT2awiJQND5p+wzFbPzzxwCpocGLMHtEPv8eIt85LUU
+#  artifact: /.*\.nupkg/
+
+#build: on
+test: off
+deploy: off
+
