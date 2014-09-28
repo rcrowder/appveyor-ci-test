@@ -17,9 +17,13 @@ init:
   - git config --global core.autocrlf input
 # - git submodule update --init --recursive
 
+clone_folder: c:\projects\appveyor-ci-test
+
 # scripts that run after cloning repository
 install:
   - echo %PATH%
+  - echo %CD%
+  - cd C:\projects\appveyor-ci-test
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
